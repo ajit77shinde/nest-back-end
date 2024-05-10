@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, serializers
 from product.models import Product, Category
 from . serializers import ProductSerializer, CategorySerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
 # Create your views here.
 def api_home(requests):
     pass 
@@ -25,3 +26,4 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    
