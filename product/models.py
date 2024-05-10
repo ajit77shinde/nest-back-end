@@ -51,14 +51,13 @@ class Product(models.Model):
     product_description = models.TextField()
     product_manufacturing_date = models.DateField()
     product_stocks_left = models.IntegerField()
-
     # extra fields for tracking
-    category_is_active = models.BooleanField(default=True)
-    category_created_by = models.CharField(max_length=255)
-    category_updated_by = models.CharField(max_length=255)
-    category_created_timestamp = models.DateTimeField(
+    product_is_active = models.BooleanField(default=True)
+    product_created_by = models.CharField(max_length=255)
+    product_updated_by = models.CharField(max_length=255)
+    product_created_timestamp = models.DateTimeField(
         auto_now_add=True, editable=False)
-    category_updated_timestamp = models.DateTimeField(
+    product_updated_timestamp = models.DateTimeField(
         auto_now_add=True, editable=False)
 
     @property
