@@ -107,4 +107,51 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+ 
+    def list(self, request):
+        """
+        List all products
+        """
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    def create_data(self, request):
+        """
+        Create a new product
+        """
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+    def retrieve(self, request, pk=None):
+        """
+        Retrieve a specific product
+        """
+        queryset = self.get_queryset()
+        product = get_object_or_404(queryset, pk=pk)
+        serializer = self.get_serializer(product)
+        return Response(serializer.data)
+ 
+    def update(self, request, pk=None):
+        """                                                                                                         
+        Update a specific product
+        """
+        queryset = self.get_queryset()
+        product = get_object_or_404(queryset, pk=pk)
+        serializer = self.get_serializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+    def delete(self, request, pk=None):
+        """
+        Delete a specific product
+        """
+        queryset = self.get_queryset()
+        product = get_object_or_404(queryset, pk=pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
