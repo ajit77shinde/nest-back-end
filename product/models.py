@@ -66,3 +66,18 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.product_category} --> {self.product_name}'
+
+class Cart(models.Model):
+    cart_id = models.AutoField(primary_key=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    user_id = models.IntegerField()
+    # extra fields
+    is_active = models.BooleanField(default=True)
+    created_by = models.CharField(max_length=255)
+    updated_by = models.CharField(max_length=255)
+    created_timestamp = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_timestamp = models.DateTimeField(auto_now=True, editable=False)
+ 
+    def __str__(self):
+        return self.cart_id

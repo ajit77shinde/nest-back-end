@@ -1,7 +1,7 @@
 from django.urls import path, include
 from . import views 
 from rest_framework import routers
-from . views import ProductViewSet,CategoryViewSet
+from . views import ProductViewSet,CategoryViewSet,CartViewSet
 
 # product_router = routers.DefaultRouter()
 # product_router.register(r'product',ProductViewSet)
@@ -10,6 +10,7 @@ from . views import ProductViewSet,CategoryViewSet
 router = routers.DefaultRouter()
 router.register(r'category',CategoryViewSet)
 router.register(r'product',ProductViewSet)
+router.register(r'cart',CartViewSet)
 
 
 urlpatterns = [

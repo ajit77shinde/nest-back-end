@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, serializers, status
-from product.models import Product, Category
-from . serializers import ProductSerializer, CategorySerializer
+from product.models import Product, Category,Cart
+from . serializers import ProductSerializer, CategorySerializer, CartSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView 
@@ -145,6 +145,47 @@ class ProductViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+    def delete(self, request, pk=None):
+        """
+        Delete a specific product
+        """
+        queryset = self.get_queryset()
+        product = get_object_or_404(queryset, pk=pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+# Cart View
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+ 
+    def list(self, request):
+        """
+        List all cart
+        """
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+   
+    def create_data(self, request):
+        """
+        Create a new cart
+        """
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+    def retrieve(self, request, pk=None):
+        """
+        Retrieve a specific cart
+        """
+        queryset = self.get_queryset()
+        product = get_object_or_404(queryset, pk=pk)
+        serializer = self.get_serializer(product)
+        return Response(serializer.data)
  
     def delete(self, request, pk=None):
         """
