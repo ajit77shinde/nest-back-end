@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
-from users.serializers import UserRegisterSerializer, UserLoginSerializer,PasswordResetSerializer
+from accounts.serializers import UserRegisterSerializer, UserLoginSerializer
 from rest_framework.response import Response 
 from rest_framework import status
-from users.models import User
+from accounts.models import User
 from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated
 
@@ -44,15 +44,5 @@ class UserLoginView(APIView):
 class TestAuthentication(GenericAPIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
-        user_id = request.user.id
+        user_id = request.user.user_id
         return Response({'message': 'You are authenticated', 'user_id': user_id}, status=status.HTTP_200_OK)
-    
-class PasswordResetView(GenericAPIView):
-    serializer_class = PasswordResetSerializer
-    def post(self,request):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data, {'message':'An email has been sent to your email id to reset password'}, status=status.HTTP_200_OK)
-class PasswordResetConfirm(GenericAPIView):
-    def post(self,request):
-        return Response({'message':'Password reset successful'}, status=status.HTTP_200_OK)

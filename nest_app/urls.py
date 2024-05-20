@@ -12,4 +12,5 @@ urlpatterns = [
     path('',include('product.urls')),
     # path('api/',include(router.urls)),
     path('api/',include('api.urls')),
+    path('api/auth/', include('users.urls')),
 ]

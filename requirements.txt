@@ -2,3 +2,11 @@ django
 djangorestframework
 pillow
 django-cors-headers
+
+asgiref
+django-environ
+djangorestframework-simplejwt
+PyJWT
+pytz
+sqlparser
+tzdata
