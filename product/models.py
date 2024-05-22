@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
-
-
+from users.models import User
+from django.conf import settings
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=255)
@@ -67,11 +67,10 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.product_category} --> {self.product_name}'
 
+
+
 class Cart(models.Model):
     cart_id = models.AutoField(primary_key=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    user_id = models.IntegerField()
     # extra fields
     is_active = models.BooleanField(default=True)
     created_by = models.CharField(max_length=255)
@@ -80,4 +79,12 @@ class Cart(models.Model):
     updated_timestamp = models.DateTimeField(auto_now=True, editable=False)
  
     def __str__(self):
-        return self.cart_id
+        return f"Cart {self.cart_id}"
+    
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.product_name}"
