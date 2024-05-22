@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from product.models import Product, Category, Cart, CartItem
-from django.contrib.auth import get_user_model
 from collections import defaultdict
 
 
@@ -16,14 +15,13 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"  # else sepcified field add in ['field name']
 
 
-User = get_user_model()
 
 
+#changes in product api
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['product_id', 'product_name',
-                  'product_category', 'product_tag_choice']
+        fields = "__all__" # else sepcified field add in ['field name']
 
 
 class CartItemSerializer(serializers.ModelSerializer):
